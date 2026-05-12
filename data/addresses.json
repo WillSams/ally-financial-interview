@@ -2,11 +2,13 @@
   "jack": {
     "street": "123 Street St.",
     "city": "Sometown",
-    "zipcode": "43215"
+    "zipcode": "43215",
+    "state": "South Carolina"
   },
   "jill": {
     "street": "234 Other St",
     "city": "Townville",
-    "zipcode": "32145"
+    "zipcode": "32145",
+    "state": "North Carolina"
   }
 }

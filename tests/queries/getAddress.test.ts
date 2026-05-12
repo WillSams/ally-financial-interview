@@ -21,13 +21,13 @@ describe('getAddress', () => {
     });
 
     expect(result).toEqual({
-      "data": {
-        "address": {
+      data: {
+        address: {
           street: '123 Street St.',
           city: 'Sometown',
           zipcode: '43215',
-        }
-      }
+        },
+      },
     });
   });
 
@@ -48,15 +48,15 @@ describe('getAddress', () => {
       document: parse(query),
       variables,
     });
-    
+
     expect(result).toEqual(
-    expect.objectContaining(
-      {
-        "errors": expect.arrayContaining([expect.objectContaining({
-          "message": "No address found in getAddress resolver"
-        })])
-      }
-    )
+      expect.objectContaining({
+        errors: expect.arrayContaining([
+          expect.objectContaining({
+            message: 'No address found in getAddress resolver',
+          }),
+        ]),
+      }),
     );
   });
 });

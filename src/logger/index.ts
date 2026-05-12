@@ -1,7 +1,7 @@
 import winston from 'winston';
 
 export class Logger {
-  private winston: any;
+  private winston: winston.Logger;
   requestId: string = '';
   constructor() {
     this.winston = winston.createLogger({

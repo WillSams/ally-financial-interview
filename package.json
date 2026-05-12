@@ -4,6 +4,8 @@
   "scripts": {
     "dev": "ts-node src/server.ts",
     "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "test": "DISABLE_DYNAMO=true npx jest --config=./jest.config.ts  --watchAll=false --ci"
   },
   "dependencies": {
@@ -24,13 +26,14 @@
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^22.15.17",
-    "@typescript-eslint/eslint-plugin": "8.41.0",
-    "@typescript-eslint/parser": "8.41.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.3",
+    "@typescript-eslint/parser": "^8.41.0",
     "eslint": "8.57.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
     "jest": "^30.2.0",
-    "ts-jest": "^29.4.5"
+    "prettier": "^3.8.3",
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   },
   "keywords": [],
   "author": "",
