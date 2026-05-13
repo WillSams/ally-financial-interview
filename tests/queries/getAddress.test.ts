@@ -1,16 +1,6 @@
 import { parse } from 'graphql';
 import { executor,} from '../exectuor';
-
-const GET_ADDRESS = `
-  query GetAddress($username: String!) {
-    address(username: $username) {
-      street
-      city
-      zipcode
-      state
-    }
-  }
-`;
+import { GET_ADDRESS } from '../consts';
 
 describe('getAddress', () => {
   test('Success — returns address with state', async () => {

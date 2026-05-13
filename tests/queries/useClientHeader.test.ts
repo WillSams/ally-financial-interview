@@ -1,27 +1,6 @@
 import { parse } from 'graphql';
 import { executor, strataExecutor, noClientExecutor } from '../exectuor';
-
-const GET_ADDRESS = `
-  query GetAddress($username: String!) {
-    address(username: $username) {
-      street
-      city
-      zipcode
-      state
-    }
-  }
-`;
-
-const CREATE_ADDRESS = `
-  mutation CreateAddress($username: String!, $address: AddressInput!) {
-    createAddress(username: $username, address: $address) {
-      street
-      city
-      zipcode
-      state
-    }
-  }
-`;
+import { GET_ADDRESS, CREATE_ADDRESS } from '../consts';
 
 describe('useClientHeader', () => {
   describe('missing client header', () => {

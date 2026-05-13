@@ -1,17 +1,7 @@
 import { parse } from 'graphql';
 import { executor } from '../exectuor';
 import { Logger } from '../../src/logger';
-
-const GET_ADDRESS = `
-  query GetAddress($username: String!) {
-    address(username: $username) {
-      street
-      city
-    }
-  }
-`;
-
-const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+import { GET_ADDRESS, UUID_REGEX } from '../consts';
 
 type LogCapture = { requestId: string; client: string };
 

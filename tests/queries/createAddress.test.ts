@@ -1,31 +1,8 @@
 import { parse } from 'graphql';
 import fs from 'fs';
-import path from 'path';
 import { executor, strataExecutor } from '../exectuor';
 
-const DATA_PATH = path.resolve(__dirname, '../../data/addresses.json');
-
-const CREATE_ADDRESS = `
-  mutation CreateAddress($username: String!, $address: AddressInput!) {
-    createAddress(username: $username, address: $address) {
-      street
-      city
-      zipcode
-      state
-    }
-  }
-`;
-
-const GET_ADDRESS = `
-  query GetAddress($username: String!) {
-    address(username: $username) {
-      street
-      city
-      zipcode
-      state
-    }
-  }
-`;
+import { DATA_PATH, CREATE_ADDRESS, GET_ADDRESS } from '../consts';
 
 describe('createAddress', () => {
   let originalData: string;
