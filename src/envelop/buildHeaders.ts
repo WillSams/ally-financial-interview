@@ -6,9 +6,9 @@ type YogaContext = ContextType & { request: Request };
 
 export const buildHeaders = (): Plugin<ContextType> => {
   return {
-    onExecute({ args, extendContext }) {
+    onContextBuilding({ context, extendContext }) {
       const requestId = uuid();
-      const ctx = args.contextValue as YogaContext;
+      const ctx = context as YogaContext;
       const client = ctx.request?.headers?.get('client') ?? null;
       extendContext({ requestId, client });
     },
