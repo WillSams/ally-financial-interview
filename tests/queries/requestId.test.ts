@@ -13,19 +13,21 @@ const GET_ADDRESS = `
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
-describe('requestId in logs (ticket #4)', () => {
+type LogCapture = { requestId: string; client: string };
+
+describe('requestId and client in logs (tickets #4 & #5)', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
   test('every log call within a request carries a valid UUID requestId', async () => {
-    const capturedIds: string[] = [];
+    const captured: LogCapture[] = [];
 
     jest.spyOn(Logger.prototype, 'info').mockImplementation(function (this: Logger) {
-      capturedIds.push(this.requestId);
+      captured.push({ requestId: this.requestId, client: this.client });
     });
     jest.spyOn(Logger.prototype, 'error').mockImplementation(function (this: Logger) {
-      capturedIds.push(this.requestId);
+      captured.push({ requestId: this.requestId, client: this.client });
     });
 
     await executor({
@@ -33,9 +35,30 @@ describe('requestId in logs (ticket #4)', () => {
       variables: { username: 'jack' },
     });
 
-    expect(capturedIds.length).toBeGreaterThan(0);
-    capturedIds.forEach((id) => {
-      expect(id).toMatch(UUID_REGEX);
+    expect(captured.length).toBeGreaterThan(0);
+    captured.forEach(({ requestId }) => {
+      expect(requestId).toMatch(UUID_REGEX);
+    });
+  });
+
+  test('every log call within a request carries the client header', async () => {
+    const captured: LogCapture[] = [];
+
+    jest.spyOn(Logger.prototype, 'info').mockImplementation(function (this: Logger) {
+      captured.push({ requestId: this.requestId, client: this.client });
+    });
+    jest.spyOn(Logger.prototype, 'error').mockImplementation(function (this: Logger) {
+      captured.push({ requestId: this.requestId, client: this.client });
+    });
+
+    await executor({
+      document: parse(GET_ADDRESS),
+      variables: { username: 'jack' },
+    });
+
+    expect(captured.length).toBeGreaterThan(0);
+    captured.forEach(({ client }) => {
+      expect(client).toBe('ally');
     });
   });
 
