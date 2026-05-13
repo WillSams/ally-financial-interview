@@ -1,19 +1,19 @@
 import fs from 'fs';
 import path from 'path';
-import * as addressTable from '../../../data/addresses.json';
 import { Addresses, Address, Args, Context, CreateAddressArgs } from './types';
 import { GraphQLError } from 'graphql';
 
 const DATA_PATH = path.resolve(__dirname, '../../../data/addresses.json');
 
-const addresses = addressTable as Addresses;
-const _getAddress = (username: string): Address | null => {
-  return addresses[username];
+const readAddresses = (): Addresses => {
+  const raw = fs.readFileSync(DATA_PATH, 'utf-8');
+  return JSON.parse(raw) as Addresses;
 };
 
 export const getAddress = (_: unknown, args: Args, context: Context): Address => {
   context.logger.info('getAddress', 'Enter resolver');
-  const address = _getAddress(args.username);
+  const addresses = readAddresses();
+  const address = addresses[args.username] ?? null;
   if (address) {
     context.logger.info('getAddress', 'Returning address');
     return address;
@@ -22,12 +22,7 @@ export const getAddress = (_: unknown, args: Args, context: Context): Address =>
   throw new GraphQLError('No address found in getAddress resolver');
 };
 
-const readAddresses = (): Addresses => {
-  const raw = fs.readFileSync(DATA_PATH, 'utf-8');
-  return JSON.parse(raw) as Addresses;
-};
-
-export const saveAddress = (_: any, args: CreateAddressArgs, context: any): Address => {
+export const saveAddress = (_: unknown, args: CreateAddressArgs, context: Context): Address => {
   context.logger.info('saveAddress', 'Enter resolver');
   const addresses = readAddresses();
   if (addresses[args.username]) {

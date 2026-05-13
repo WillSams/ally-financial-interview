@@ -10,6 +10,19 @@ const schema = genSchema();
 
 const yoga = createYoga({ schema, plugins });
 
+
 export const executor = buildHTTPExecutor({
   fetch: yoga.fetch,
+  headers: { client: 'ally' },
 });
+
+export const strataExecutor = buildHTTPExecutor({
+  fetch: yoga.fetch,
+  headers: { client: 'strata' },
+});
+
+export const noClientExecutor = buildHTTPExecutor({
+  fetch: yoga.fetch,
+});
+
+

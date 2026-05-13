@@ -1,7 +1,7 @@
 import { parse } from 'graphql';
 import fs from 'fs';
 import path from 'path';
-import { executor, } from '../exectuor';
+import { executor, strataExecutor } from '../exectuor';
 
 const DATA_PATH = path.resolve(__dirname, '../../data/addresses.json');
 
@@ -59,6 +59,25 @@ describe('createAddress', () => {
     });
   });
 
+  test('Success — created address is persisted and queryable', async () => {
+    await executor({
+      document: parse(CREATE_ADDRESS),
+      variables: {
+        username: 'persistuser',
+        address: { street: '2 Persist Rd', city: 'Saveville', zipcode: '11111', state: 'CA' },
+      },
+    });
+
+    const result = await executor({
+      document: parse(GET_ADDRESS),
+      variables: { username: 'persistuser' },
+    });
+
+    expect(result).toMatchObject({
+      data: { address: { street: '2 Persist Rd', city: 'Saveville', zipcode: '11111', state: 'CA' } },
+    });
+  });
+
   test('Error — duplicate username returns GraphQL error', async () => {
     await executor({
       document: parse(CREATE_ADDRESS),
@@ -79,6 +98,22 @@ describe('createAddress', () => {
     expect(result).toMatchObject({
       errors: expect.arrayContaining([
         expect.objectContaining({ message: 'Address already exists for username' }),
+      ]),
+    });
+  });
+
+  test('Error — strata client cannot run mutations', async () => {
+    const result = await strataExecutor({
+      document: parse(CREATE_ADDRESS),
+      variables: {
+        username: 'stratauser',
+        address: { street: '4 Strata Blvd', city: 'Restricted', zipcode: '33333', state: 'WA' },
+      },
+    });
+
+    expect(result).toMatchObject({
+      errors: expect.arrayContaining([
+        expect.objectContaining({ message: 'Mutations are not allowed for strata clients' }),
       ]),
     });
   });
