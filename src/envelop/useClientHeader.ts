@@ -14,8 +14,7 @@ export const useClientHeader = (): Plugin<ContextType> => {
       if (client === 'strata') {
         const isMutation = args.document.definitions.some(
           (def: DefinitionNode) =>
-            def.kind === Kind.OPERATION_DEFINITION &&
-            (def as OperationDefinitionNode).operation === 'mutation',
+            def.kind === Kind.OPERATION_DEFINITION && (def as OperationDefinitionNode).operation === 'mutation',
         );
         if (isMutation) {
           throw new GraphQLError('Mutations are not allowed for strata clients');

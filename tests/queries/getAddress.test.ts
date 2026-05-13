@@ -1,5 +1,5 @@
 import { parse } from 'graphql';
-import { executor,} from '../exectuor';
+import { executor } from '../exectuor';
 import { GET_ADDRESS } from '../consts';
 
 describe('getAddress', () => {
@@ -28,9 +28,7 @@ describe('getAddress', () => {
     });
 
     expect(result).toMatchObject({
-      errors: expect.arrayContaining([
-        expect.objectContaining({ message: 'No address found in getAddress resolver' }),
-      ]),
+      errors: expect.arrayContaining([expect.objectContaining({ message: 'No address found in getAddress resolver' })]),
     });
   });
 });

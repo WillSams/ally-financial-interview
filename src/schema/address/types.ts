@@ -17,10 +17,3 @@ export type CreateAddressArgs = {
   username: string;
   address: Address;
 };
-
-export type Context = {
-  logger: {
-    info: (scope: string, message: string) => void;
-    error: (scope: string, message: string) => void;
-  };
-};

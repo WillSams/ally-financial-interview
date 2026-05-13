@@ -11,9 +11,7 @@ describe('useClientHeader', () => {
       });
 
       expect(result).toMatchObject({
-        errors: expect.arrayContaining([
-          expect.objectContaining({ message: 'Missing required client header' }),
-        ]),
+        errors: expect.arrayContaining([expect.objectContaining({ message: 'Missing required client header' })]),
       });
     });
 
@@ -27,9 +25,7 @@ describe('useClientHeader', () => {
       });
 
       expect(result).toMatchObject({
-        errors: expect.arrayContaining([
-          expect.objectContaining({ message: 'Missing required client header' }),
-        ]),
+        errors: expect.arrayContaining([expect.objectContaining({ message: 'Missing required client header' })]),
       });
     });
   });

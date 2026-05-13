@@ -73,9 +73,7 @@ describe('createAddress', () => {
     });
 
     expect(result).toMatchObject({
-      errors: expect.arrayContaining([
-        expect.objectContaining({ message: 'Address already exists for username' }),
-      ]),
+      errors: expect.arrayContaining([expect.objectContaining({ message: 'Address already exists for username' })]),
     });
   });
 
