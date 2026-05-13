@@ -6,6 +6,9 @@ import { GraphQLError } from 'graphql';
 
 const DATA_PATH = path.resolve(__dirname, '../../../data/addresses.json');
 
+// readAddresses reads from data path on every call rather than using the module-level
+// import. The static import is loaded once at startup and would miss any records
+// written during the process lifetime (i.e. by saveAddress in the same test run).
 const readAddresses = (): Addresses => {
   const raw = fs.readFileSync(DATA_PATH, 'utf-8');
   return JSON.parse(raw) as Addresses;

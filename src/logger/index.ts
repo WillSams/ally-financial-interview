@@ -20,6 +20,9 @@ export class Logger {
     this.client = client;
   }
 
+  // requestId and client are spread into every log call so each log line is
+  // self-contained and correlatable without joining on a separate context store.
+  // meta is spread first so neither field can be accidentally overridden by callers. 
   info(message: string, meta?: object) {
     this.winston.info(message, { ...meta, requestId: this.requestId, client: this.client });
   }

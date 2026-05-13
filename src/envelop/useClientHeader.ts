@@ -4,6 +4,8 @@ import { ContextType } from '../types';
 
 export const useClientHeader = (): Plugin<ContextType> => {
   return {
+    // client is validated after context is built but before the 
+    // resolver runs, which means rejected requests never reach resolver logic.
     onExecute({ args }) {
       const client = args.contextValue.client;
 

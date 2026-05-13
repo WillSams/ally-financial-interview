@@ -1,5 +1,7 @@
 # Ally Financial Interview Homework
 
+For this homework, for time constraints, I missed unit and integration tests, and I have outlined how I would implement the NASA NEO Feed integration in the TICKETS-FOR-SPRINT2.md file.  I had more commits here but I squashed them to keep the commit history clean for your review.  I also added a few comments in the code to explain some of my choices.
+
 ## Purpose
 
 You're tasked with 7 tickets this sprint. 5 of the tickets are enhancements, one is a bug and the last ticket to write unit tests
