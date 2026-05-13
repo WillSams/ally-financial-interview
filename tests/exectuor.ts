@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+// 
 import { createYoga } from 'graphql-yoga';
 import { buildHTTPExecutor } from '@graphql-tools/executor-http';
 import { genSchema } from '../src/schema';

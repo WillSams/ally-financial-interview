@@ -13,6 +13,11 @@ export type Args = {
   username: string;
 };
 
+export type CreateAddressArgs = {
+  username: string;
+  address: Address;
+};
+
 export type Context = {
   logger: {
     info: (scope: string, message: string) => void;

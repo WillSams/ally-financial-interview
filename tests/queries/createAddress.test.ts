@@ -1,0 +1,85 @@
+import { parse } from 'graphql';
+import fs from 'fs';
+import path from 'path';
+import { executor, } from '../exectuor';
+
+const DATA_PATH = path.resolve(__dirname, '../../data/addresses.json');
+
+const CREATE_ADDRESS = `
+  mutation CreateAddress($username: String!, $address: AddressInput!) {
+    createAddress(username: $username, address: $address) {
+      street
+      city
+      zipcode
+      state
+    }
+  }
+`;
+
+const GET_ADDRESS = `
+  query GetAddress($username: String!) {
+    address(username: $username) {
+      street
+      city
+      zipcode
+      state
+    }
+  }
+`;
+
+describe('createAddress', () => {
+  let originalData: string;
+
+  beforeAll(() => {
+    originalData = fs.readFileSync(DATA_PATH, 'utf-8');
+  });
+
+  afterAll(() => {
+    fs.writeFileSync(DATA_PATH, originalData);
+  });
+
+  test('Success — creates and returns new address', async () => {
+    const result = await executor({
+      document: parse(CREATE_ADDRESS),
+      variables: {
+        username: 'testuser',
+        address: { street: '1 Test Ave', city: 'Testburg', zipcode: '99999', state: 'TX' },
+      },
+    });
+
+    expect(result).toMatchObject({
+      data: {
+        createAddress: {
+          street: '1 Test Ave',
+          city: 'Testburg',
+          zipcode: '99999',
+          state: 'TX',
+        },
+      },
+    });
+  });
+
+  test('Error — duplicate username returns GraphQL error', async () => {
+    await executor({
+      document: parse(CREATE_ADDRESS),
+      variables: {
+        username: 'dupuser',
+        address: { street: '3 Dup St', city: 'Twin City', zipcode: '22222', state: 'NY' },
+      },
+    });
+
+    const result = await executor({
+      document: parse(CREATE_ADDRESS),
+      variables: {
+        username: 'dupuser',
+        address: { street: '3 Dup St', city: 'Twin City', zipcode: '22222', state: 'NY' },
+      },
+    });
+
+    expect(result).toMatchObject({
+      errors: expect.arrayContaining([
+        expect.objectContaining({ message: 'Address already exists for username' }),
+      ]),
+    });
+  });
+});

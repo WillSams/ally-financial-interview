@@ -1,62 +1,46 @@
 import { parse } from 'graphql';
-import { executor } from '../exectuor';
+import { executor,} from '../exectuor';
+
+const GET_ADDRESS = `
+  query GetAddress($username: String!) {
+    address(username: $username) {
+      street
+      city
+      zipcode
+      state
+    }
+  }
+`;
 
 describe('getAddress', () => {
-  test('Success', async () => {
-    const query = `
-            query GetAddress($username: String!) {
-                address(username: $username) {
-                    street
-                    city
-                    zipcode
-                }
-            }
-        `;
-
-    const variables = { username: 'jack' };
-
+  test('Success — returns address with state', async () => {
     const result = await executor({
-      document: parse(query),
-      variables,
+      document: parse(GET_ADDRESS),
+      variables: { username: 'jack' },
     });
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       data: {
         address: {
           street: '123 Street St.',
           city: 'Sometown',
           zipcode: '43215',
+          state: 'South Carolina',
         },
       },
     });
   });
 
-  test('Error', async () => {
-    const query = `
-            query GetAddress($username: String!) {
-                address(username: $username) {
-                    street
-                    city
-                    zipcode
-                }
-            }
-        `;
-
-    const variables = { username: 'john' };
-
+  test('Error — unknown username returns GraphQL error', async () => {
     const result = await executor({
-      document: parse(query),
-      variables,
+      document: parse(GET_ADDRESS),
+      variables: { username: 'unknown' },
     });
 
-    expect(result).toEqual(
-      expect.objectContaining({
-        errors: expect.arrayContaining([
-          expect.objectContaining({
-            message: 'No address found in getAddress resolver',
-          }),
-        ]),
-      }),
-    );
+    expect(result).toMatchObject({
+      errors: expect.arrayContaining([
+        expect.objectContaining({ message: 'No address found in getAddress resolver' }),
+      ]),
+    });
   });
 });
