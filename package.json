@@ -13,7 +13,7 @@
     "@envelop/parser-cache": "^10.1.1",
     "@envelop/response-cache": "^8.0.0",
     "@envelop/validation-cache": "^9.0.0",
-    "@graphql-tools/executor-http": "^1.1.6",
+    "@graphql-tools/executor-http": "^3.3.0",
     "@graphql-tools/load-files": "^7.0.1",
     "@graphql-tools/merge": "^9.0.24",
     "@graphql-tools/schema": "^10.0.23",
