@@ -7,5 +7,8 @@ const config: Config.InitialOptions = {
     '^.+\\.ts?$': 'ts-jest',
   },
   testTimeout: 30000,
+  testPathIgnorePatterns: ['/node_modules/', '/.claude/'],
+  // File-based state (addresses.json) is not safe for concurrent writes — run suites sequentially.
+  maxWorkers: 1,
 };
 export default config;

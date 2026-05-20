@@ -1,18 +1,25 @@
 import { parse } from 'graphql';
 import fs from 'fs';
-import { executor, strataExecutor } from '../exectuor';
+import { executor, strataExecutor } from '../executor';
 
 import { DATA_PATH, CREATE_ADDRESS, GET_ADDRESS } from '../consts';
 
-describe('createAddress', () => {
-  let originalData: string;
+const SEED_DATA = JSON.stringify(
+  {
+    jack: { street: '123 Street St.', city: 'Sometown', zipcode: '43215', state: 'South Carolina' },
+    jill: { street: '234 Other St', city: 'Townville', zipcode: '32145', state: 'North Carolina' },
+  },
+  null,
+  2,
+);
 
+describe('createAddress', () => {
   beforeAll(() => {
-    originalData = fs.readFileSync(DATA_PATH, 'utf-8');
+    fs.writeFileSync(DATA_PATH, SEED_DATA);
   });
 
   afterAll(() => {
-    fs.writeFileSync(DATA_PATH, originalData);
+    fs.writeFileSync(DATA_PATH, SEED_DATA);
   });
 
   test('Success — creates and returns new address', async () => {

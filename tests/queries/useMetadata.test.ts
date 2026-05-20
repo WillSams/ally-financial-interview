@@ -1,10 +1,27 @@
 import { parse } from 'graphql';
+import fs from 'fs';
 
-import { executor } from '../exectuor';
-import { GET_ADDRESS, CREATE_ADDRESS, UUID_REGEX } from '../consts';
+import { executor } from '../executor';
+import { GET_ADDRESS, CREATE_ADDRESS, UUID_REGEX, DATA_PATH } from '../consts';
 import { ResultWithMetadata } from '../types';
 
+const SEED_DATA = JSON.stringify(
+  {
+    jack: { street: '123 Street St.', city: 'Sometown', zipcode: '43215', state: 'South Carolina' },
+    jill: { street: '234 Other St', city: 'Townville', zipcode: '32145', state: 'North Carolina' },
+  },
+  null,
+  2,
+);
+
 describe('useMetadata (ticket #6)', () => {
+  beforeAll(() => {
+    fs.writeFileSync(DATA_PATH, SEED_DATA);
+  });
+
+  afterAll(() => {
+    fs.writeFileSync(DATA_PATH, SEED_DATA);
+  });
   test('query response includes metadata.requestId', async () => {
     const result = (await executor({
       document: parse(GET_ADDRESS),
