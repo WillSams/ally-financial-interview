@@ -3,7 +3,7 @@ import { mergeResolvers } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import path from 'path';
 
-export const genSchema = async () => {
+export const genSchema = () => {
   const modulesTypedefs = loadFilesSync(`${path.join(__dirname, '../src/schema')}/**/*.graphql`);
   const resolverFiles = loadFilesSync(`${path.join(__dirname, '../src/schema')}/**/resolvers.?s`);
   const modulesResolvers = mergeResolvers(resolverFiles);
