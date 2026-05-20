@@ -1,5 +1,5 @@
 import { parse } from 'graphql';
-import { executor, strataExecutor, noClientExecutor } from '../exectuor';
+import { executor, strataExecutor, noClientExecutor } from '../executor';
 import { GET_ADDRESS, CREATE_ADDRESS } from '../consts';
 
 describe('useClientHeader', () => {

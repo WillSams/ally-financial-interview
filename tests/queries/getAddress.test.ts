@@ -1,5 +1,5 @@
 import { parse } from 'graphql';
-import { executor } from '../exectuor';
+import { executor } from '../executor';
 import { GET_ADDRESS } from '../consts';
 
 describe('getAddress', () => {

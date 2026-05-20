@@ -1,5 +1,5 @@
 import { parse } from 'graphql';
-import { executor } from '../exectuor';
+import { executor } from '../executor';
 import { Logger } from '../../src/logger';
 import { GET_ADDRESS, UUID_REGEX } from '../consts';
 
