@@ -1,6 +1,7 @@
 import type { Plugin } from '@envelop/core';
 import { v4 as uuid } from 'uuid';
 import { ContextType } from '../types';
+import { requestIds } from './requestStore';
 
 type YogaContext = ContextType & { request: Request };
 
@@ -13,6 +14,11 @@ export const buildHeaders = (): Plugin<ContextType> => {
       const requestId = uuid();
       const ctx = context as YogaContext;
       const client = ctx.request?.headers?.get('client') ?? null;
+      // Also store in requestIds so useMetadata can inject metadata on validation
+      // error responses, where onExecuteDone never fires.
+      if (ctx.request) {
+        requestIds.set(ctx.request, requestId);
+      }
       extendContext({ requestId, client });
     },
   };
