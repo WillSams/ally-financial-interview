@@ -16,7 +16,7 @@ const plugins: Plugin<ContextType>[] = [
   buildHeaders(),
   useLogger(),
   useClientHeader(),
-  useMetadata(),
+  useMetadata() as unknown as Plugin<ContextType>,
   useParserCache() as Plugin<ContextType>,
   useValidationCache() as Plugin<ContextType>,
 ];

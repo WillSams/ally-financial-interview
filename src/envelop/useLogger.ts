@@ -7,10 +7,10 @@ export const useLogger = (): Plugin<ContextType> => {
     // Logger is created per-request inside onExecute so each request gets an isolated
     // instance with its own requestId and client already stamped. 
     // A shared logger instance would race across concurrent requests.
-    onExecute({ context, extendContext }) {
+    onExecute({ args, extendContext }) {
       const logger = new Logger();
-      logger.setRequestId(context.requestId || '');
-      logger.setClient(context.client || '');
+      logger.setRequestId(args.contextValue.requestId || '');
+      logger.setClient(args.contextValue.client || '');
       extendContext({ logger });
     },
   };
