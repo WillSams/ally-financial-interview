@@ -15,7 +15,7 @@
     "@envelop/validation-cache": "^10.1.1",
     "@graphql-tools/executor-http": "^2.1.2",
     "@graphql-tools/load-files": "^7.0.1",
-    "@graphql-tools/merge": "^9.0.24",
+    "@graphql-tools/merge": "^9.1.10",
     "@graphql-tools/schema": "^10.0.23",
     "@graphql-tools/utils": "^11.1.0",
     "graphql": "^16.11.0",
